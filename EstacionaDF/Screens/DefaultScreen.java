@@ -1,9 +1,10 @@
 package EstacionaDF.Screens;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+
 import EstacionaDF.SystemApp;
 import java.awt.Component;
 
@@ -12,12 +13,16 @@ public abstract class DefaultScreen {
     private GridBagLayout localLayout;
     private GridBagConstraints localLayoutProperties;
     private JButton backBtn;
+    private String[] categoriesPlates;
+    private JLabel intro;
+
 
     DefaultScreen(SystemApp screenSys) {
         setScreenSys(screenSys); // to access and modify the App's System attributes and methods. 
         setLocalLayout(new GridBagLayout());
         getScreenSys().setLayout(getLocalLayout()); // definido o layout da página local como GridBag.
         setLocalLayoutProperties(new GridBagConstraints()); // create a GridBag customization API.
+        this.categoriesPlates = new String[] {"Placas", "Entrada", "Mensalista"};
     }
 
     // getters and setters
@@ -37,10 +42,16 @@ public abstract class DefaultScreen {
         return backBtn;
     } public void setBackBtn(JButton backBtn) {
         this.backBtn = backBtn;
+    } public String[] getCategoriesPlates() {
+        return categoriesPlates;
+    } public JLabel getIntro() {
+        return intro;
+    } public void setIntro(JLabel intro) {
+        this.intro = intro;
     }
     
     public void createBackBtn(ActionListener backto) {
-        setBackBtn(new JButton("Voltar"));
+        setBackBtn(new JButton(getScreenSys().getTextContent("back", 0)));
         placeElementGrid(getBackBtn(), 0, 0, 1, 1);
         getBackBtn().addActionListener(backto);   
     }
@@ -61,8 +72,8 @@ public abstract class DefaultScreen {
         getLocalLayoutProperties().gridheight = gridheight;
         getLocalLayout().setConstraints(item, getLocalLayoutProperties());
         getScreenSys().getContentPane().add(item);
-
     }
+
     protected void cleanPage() {
         getScreenSys().getContentPane().removeAll();
     }
